@@ -148,25 +148,17 @@ class CommandLine(object):
             if (
                 inspect.isclass(fn_cls)
                 and fn_cls.__name__[0] != "_"
-                and fn_cls.__module__ == "clrtools.commands"
                 and fn_cls.__name__ != "AbstrCommand"
                 and issubclass(fn_cls, commands.AbstrCommand)
             ):
 
-                # print("Command-Class found", fn_cls.__name__)
-
                 spec = inspect_getargspec(fn_cls.__call__)
-                # print(spec)
                 if spec[3]:  # map defaults if any
                     positional = spec[0][1 : -len(spec[3])]
                     kwarg = spec[0][-len(spec[3]) :]
                 else:
                     positional = spec[0][1:]
                     kwarg = []
-
-                # print("  positional", positional)
-                # print("       kwarg", kwarg)
-                # print()
 
                 def _transform_command_name(name):
                     """ Generate the option name starting from the
@@ -190,36 +182,19 @@ class CommandLine(object):
                 
                 cmd_name = _transform_command_name(fn_cls.__name__)
                 
-                #print("NEW COMMAND:", cmd_name, "HELP =", fn_cls.__doc__)
                 subparser = subparsers.add_parser(cmd_name, help=fn_cls.__doc__)
                 add_options2(subparser, positional, kwarg, fn_cls)
                 subparser.set_defaults(cmd=(fn_cls, positional, kwarg))
-
-        # for fn in [getattr(commands, n) for n in dir(commands)]:
-        #     if (
-        #         inspect.isfunction(fn)
-        #         and fn.__name__[0] != "_"
-        #         and fn.__module__ == "clrtools.commands"
-        #     ):
-
-        #         spec = inspect_getargspec(fn)
-        #         if spec[3]:
-        #             positional = spec[0][1 : -len(spec[3])]
-        #             kwarg = spec[0][-len(spec[3]) :]
-        #         else:
-        #             positional = spec[0][1:]
-        #             kwarg = []
-
-        #         subparser = subparsers.add_parser(fn.__name__, help=fn.__doc__)
-        #         add_options(subparser, positional, kwarg)
-        #         subparser.set_defaults(cmd=(fn, positional, kwarg))
         self.parser = parser
 
     def run_cmd(self, config, options):
         fn, positional, kwarg = options.cmd
 
         try:
+            # create the command object
             fn_inst = fn(config)
+
+            # run the __call__ method
             fn_inst(
                 # config,
                 *[getattr(options, k, None) for k in positional],
@@ -255,6 +230,3 @@ def main(argv=None, prog=None, **kwargs):
 def joke():
     return "Hello!3"
 
-
-if __name__ == "__main__":
-    main()
