@@ -1,6 +1,8 @@
 """ A command class for data imports. """
 
-from clrtools.commands.commands_impl import AbstrCommand
+#from clrtools.commands.commands_impl import AbstrCommand
+
+from . import AbstrCommand
 
 
 class CommandImport(AbstrCommand):
@@ -41,7 +43,6 @@ class CommandImport(AbstrCommand):
     positional_help = {
         "file": "Path to the file to be imported.",
     }
-
 
     def __init__(self, spec):
         self.spec = spec

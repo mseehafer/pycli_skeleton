@@ -1,7 +1,7 @@
 """ A command class for showing targets. """
 
-
-from clrtools.commands.commands_impl import AbstrCommand
+from . import AbstrCommand
+#from clrtools.commands.commands_impl import AbstrCommand
 
 class CommandShowTargets(AbstrCommand):
     """ Display the available target for a data import

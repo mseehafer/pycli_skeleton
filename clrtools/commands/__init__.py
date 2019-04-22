@@ -7,10 +7,16 @@
 """
 
 
+from .commands_impl import CommandError
+from .commands_impl import AbstrCommand
 
-from clrtools.commands.commands_impl import CommandError
-from clrtools.commands.commands_impl import AbstrCommand
+
+#from clrtools.commands.commands_impl import CommandError
+#from clrtools.commands.commands_impl import AbstrCommand
 
 # import command classes here
-from clrtools.commands.commands_impl.load import CommandImport
-from clrtools.commands.commands_impl.targets import CommandShowTargets
+#from clrtools.commands.commands_impl.load import CommandImport
+#from clrtools.commands.commands_impl.targets import CommandShowTargets
+
+from .commands_impl.load import CommandImport
+from .commands_impl.targets import CommandShowTargets
