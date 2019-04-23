@@ -1,9 +1,9 @@
 """ A command class for showing targets. """
 
 from . import AbstrCommand
-#from clrtools.commands.commands_impl import AbstrCommand
 
-class CommandShowTargets(AbstrCommand):
+
+class CommandShowImportTargets(AbstrCommand):
     """ Display the available target for a data import
     """
 
@@ -11,12 +11,15 @@ class CommandShowTargets(AbstrCommand):
 
     positional_help = None
 
-    def __init__(self, spec):
-        self.spec = spec
+    def __init__(self, config):
+        self.config = config
 
     def __call__(self):
         targets = ["GDWHCoA", "ECONCoA", "QuasiiSingle", "YieldCurve", "inflation"]
 
         for tar in targets:
             print(tar)
+
+        # print("Config-Info:")
+        # print(self.config.get_main_option("database"))
 

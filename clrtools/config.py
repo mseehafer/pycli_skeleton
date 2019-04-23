@@ -53,14 +53,15 @@ class Config(object):
         else:
             here = ""
         self.config_args["here"] = here
+
+        # set the "DEFAULT" args for the parser, so far always None
         file_config = ConfigParser(self.config_args)
-        if self.config_file_name:
-            file_config.read([self.config_file_name])
+        if self.config_file_name:            
+            file_config.read(self.config_file_name)
         else:
             file_config.add_section(self.config_ini_section)
         
         self.file_config = file_config
-
 
     cmd_opts = None
     """The command-line options passed to the ``alembic`` script.
@@ -129,7 +130,9 @@ class CommandLine(object):
             "-c",
             "--config",
             type=str,
-            default="clrtools.ini",
+            default=os.path.join(os.path.dirname(__file__),
+                                 "..",
+                                 "conf", "clrtools.ini"),
             help="Alternate config file",
         )
         parser.add_argument(
